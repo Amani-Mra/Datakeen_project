@@ -1,0 +1,74 @@
+<div class="col-md-12" style="width: 100%; height: 100%;">
+  <div class="row" style="margin: 40px; " >
+
+  <div *ngIf="!showTable">
+  <mat-form-field appearance="fill" style="width:50% ;">
+    <mat-label >Text area</mat-label>
+    <textarea matInput  [(ngModel)]="textValue"></textarea>
+  </mat-form-field>
+
+
+<div class="row" style="width:50%;display: flex; flex-direction: row-reverse; ">
+  <button mat-raised-button color="primary" (click)="getWordsList()">START</button>
+
+</div>
+</div>
+
+<div *ngIf="showTable && !showFinalList">
+  <span (click)="goToText()" class="material-icons">
+    arrow_back
+    </span>
+  <div class="mat-elevation-z8">
+    <mat-table mat-table mat-sort [dataSource]="dataSource" style="width: 100%;">
+    <ng-container matColumnDef="mot">
+      <mat-header-cell *matHeaderCellDef> Mot </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.mot}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="checked" >
+      <mat-header-cell *matHeaderCellDef>Check</mat-header-cell>
+      <mat-cell *matCellDef="let element; let i=index">
+        <mat-checkbox (change)=updateCheckedList(element)></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+   
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator #scheduledOrdersPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div>
+
+<div class="row" style="width:100%;display: flex; flex-direction: row-reverse; ">
+  <button mat-raised-button color="primary" (click)="validateWordsList()"
+  >VALIDATE</button>
+
+</div>
+</div>
+<div *ngIf="showFinalList">
+ 
+<div *ngIf="!listIsempty">
+  
+<mat-nav-list *ngFor="let word of listImportantWord; let index = index">
+
+  <span *ngIf="word.important" mat-line >
+    <span style=" font-size: 18px; font-weight: bold;color: blueviolet;">{{index +1}} )Word :</span>  
+    <span style="font-size: 18px;">{{word.mot}}</span>&nbsp;    
+    <span style=" font-size: 18px; font-weight: bold;color: blueviolet;">&nbsp;Start position :</span>
+    <span style="font-size: 18px;">{{word.startPosition}}</span>&nbsp;  
+    <span style=" font-size: 18px; font-weight: bold;color: blueviolet;">&nbsp;End position :</span>
+    <span style="font-size: 18px;">{{word.endPosition}}</span>&nbsp;
+    </span> 
+</mat-nav-list>
+</div>
+<div *ngIf="listIsempty">
+  <mat-nav-list>
+    <span style="font-size: 20px;color: black;"> No important word was found!</span>
+  </mat-nav-list>
+</div>
+</div>
+  
+</div>
+
+</div>
